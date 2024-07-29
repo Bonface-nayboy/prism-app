@@ -1,29 +1,30 @@
+import { MongoClient } from 'mongodb';
 
- import { MongoClient } from 'mongodb';
-
-
-const uri = 'mongodb://localhost:27017/register' || process.env.MONGODB_URI ;
-//const uri ='mongodb+srv://bonfacewaithaka615:RtcAlmJDi302SO64@whinchester.893ep1m.mongodb.net/?retryWrites=true&w=majority&appName=Whinchester';
-//const uri ='mongodb+srv://bonfacewaithaka615:RtcAlmJDi302SO64@whinchester.893ep1m.mongodb.net/register?retryWrites=true&w=majority&appName=Whinchester';
-//const uri='mongodb+srv://bonfacewaithaka615:RtcAlmJDi302SO64@whinchester.893ep1m.mongodb.net/?retryWrites=true&w=majority&appName=Whinchester';
-//const uri = 'mongodb+srv://bonfacewaithaka615:RtcAlmJDi302SO64@whinchester.893ep1m.mongodb.net/register?retryWrites=true&w=majority&appName=Whinchester';
-
+const uri = process.env.MONGODB_URI || 'mongodb://localhost:27017/register';
 
 let clientPromise: Promise<MongoClient>;
 
+// Check if the environment is development or production
 if (!process.env.NODE_ENV || process.env.NODE_ENV === 'development') {
-  
   let cachedClient: MongoClient;
 
+  // Only create the cached client if it doesn't exist
   if (!cachedClient) {
     cachedClient = new MongoClient(uri, {
       useNewUrlParser: true,
       useUnifiedTopology: true,
     });
 
-    clientPromise = cachedClient.connect().then(() => cachedClient)
+    clientPromise = cachedClient.connect().then(() => cachedClient);
   }
+} else {
+  // In production, create a new client and connect to the database
+  const client = new MongoClient(uri, {
+    useNewUrlParser: true,
+    useUnifiedTopology: true,
+  });
+  clientPromise = client.connect();
 }
 
+// Export clientPromise to be used in your application
 export default clientPromise;
- 
