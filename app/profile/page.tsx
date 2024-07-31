@@ -1,7 +1,6 @@
 "use client";
 import React, { useEffect, useState } from 'react';
-import { Box, Typography, Card, Grid, Button, Dialog, DialogTitle, DialogContent, DialogContentText, TextField } from '@mui/material';
-import Avatar from '@mui/material/Avatar';
+import { Box, Typography, Card, Avatar } from '@mui/material';
 import { useSession } from 'next-auth/react';
 import { useRouter } from 'next/navigation';
 import User from '../dashboard/page';
@@ -11,13 +10,13 @@ const Profile = () => {
   const router = useRouter();
   const [open, setOpen] = useState(false);
 
-
   const handleToOpen = () => {
-    setOpen(true)
-  }
+    setOpen(true);
+  };
+  
   const handleToClose = () => {
-    setOpen(false)
-  }
+    setOpen(false);
+  };
 
   useEffect(() => {
     if (!session) {
@@ -33,8 +32,6 @@ const Profile = () => {
     );
   }
 
-
-
   return (
     <Box sx={{ margin: 1, textAlign: 'center' }}>
       <User />
@@ -45,30 +42,27 @@ const Profile = () => {
         alignContent: "center",
         alignItems: "center",
         padding: "50px 200px"
-
       }}>
         <Card sx={{
           padding: "20px 200px"
         }}>
-          <Box sx={
-            {
-              display: "block",
-              justifyContent: "center",
-              margin: "0px 0px 20px 0px"
-            }
-          }>
+          <Box sx={{
+            display: "block",
+            justifyContent: "center",
+            margin: "0px 0px 20px 0px"
+          }}>
             <Typography variant="h6" sx={{ margin: '10px 0' }}>Welcome, {session.user?.name}</Typography>
-            <Avatar alt={session.user?.name} src={session.user?.image} sx={{ width: 100, height: 100 }} />
+            <Avatar
+              alt={session.user?.name || ''} // Fallback to an empty string if the name is undefined
+              src={session.user?.image || '/default-avatar.png'} // Fallback image if none is provided
+              sx={{ width: 100, height: 100 }}
+            />
           </Box>
           <Box sx={{ margin: '1px 0' }}>
-           
             <Typography variant='h4'>Balance : $100</Typography>
-
-
           </Box>
         </Card>
       </Box>
-    
     </Box>
   );
 };

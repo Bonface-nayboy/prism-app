@@ -1,22 +1,22 @@
 import { NextResponse } from 'next/server';
 import User from '../../../src/models/userModel';
+import clientPromise from '@/app/lib/mongodb1';
 import bcrypt from 'bcryptjs';
-import clientPromise from '@/app/lib/mongodb1'; 
 
 
 
 
 export async function POST(req: Request) {
     const { username, email, password } = await req.json();
-    console.log("req.json",username, email, password)
+    console.log("req.json", username, email, password)
 
     try {
         const client = await clientPromise;
-       const db = client.db();
+        const db = client.db();
         //const db = client.db('register');
 
         const existingUser = await db.collection('users').findOne({ email });
-        console.log('existingUser',existingUser)
+        console.log('existingUser', existingUser)
         if (existingUser) {
             return NextResponse.json({ success: false, message: 'Email already exists' }, { status: 400 });
         }

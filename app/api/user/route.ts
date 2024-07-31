@@ -1,12 +1,9 @@
-// app/api/user/route.ts
-
-import { connectMongoDb } from "../../lib/mongodb";
 import { NextResponse } from "next/server";
-
-// Assuming User model is imported correctly
+import { connectMongoDb } from "../../lib/mongodb"; 
 import User from '../../../src/models/userModel';
 
-export async function POST(request) {
+// Explicitly define the type of the request parameter
+export async function POST(request: Request) {
     try {
         const { email, password } = await request.json();
 

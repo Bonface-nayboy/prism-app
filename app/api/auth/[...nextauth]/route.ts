@@ -1,39 +1,43 @@
-
-import NextAuth from 'next-auth';
+import NextAuth, { NextAuthOptions, User, Account, Profile } from 'next-auth';
 import GoogleProvider from 'next-auth/providers/google';
-import { connectMongoDb } from '../../../lib/mongodb'; 
+import { connectMongoDb } from '../../../lib/mongodb';
 
-const authOptions = {
+const authOptions: NextAuthOptions = {
     providers: [
         GoogleProvider({
-            clientId: process.env.GOOGLE_CLIENT_ID,
-            clientSecret: process.env.GOOGLE_CLIENT_SECRET,
+            clientId: process.env.GOOGLE_CLIENT_ID || '',
+            clientSecret: process.env.GOOGLE_CLIENT_SECRET || '',
         }),
     ],
 
     callbacks: {
-        async signIn({ user, account, profile, error }) {
-            if (error) {
-                console.error('Error during sign-in:', error);
-                throw new Error('Authentication failed');
-            }
-    
+        async signIn({
+            user,
+            account,
+            profile,
+            credentials,
+        }: {
+            user: User;
+            account: Account | null; // Account can be null
+            profile?: Profile | null; // Profile can be optional
+            credentials?: Record<string, unknown>; // This can be an object if you're using credentials strategy
+        }) {
+            // Handle sign-in logic
             try {
                 const client = await connectMongoDb();
-                const database = client.db('register'); 
+                const database = client.db('register');
                 const usersCollection = database.collection('users');
-    
-        
+
                 await usersCollection.updateOne(
                     { email: user.email },
                     { $set: { ...profile, email: user.email } },
-                    { upsert: true } 
+                    { upsert: true }
                 );
-    
+
                 return true; 
             } catch (err) {
                 console.error('Error during signIn callback:', err);
-                throw new Error('Failed to sign in');
+                return false; // Return false on error
             }
         },
     },

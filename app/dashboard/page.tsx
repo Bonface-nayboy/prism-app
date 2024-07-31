@@ -1,4 +1,5 @@
-"use client";
+"use client"; // Add this line to mark this as a client component
+
 import React from 'react';
 import { Box, Drawer, List, ListItem, ListItemIcon, ListItemText, Typography, Divider, Button } from '@mui/material';
 import { Dashboard as DashboardIcon, Person as PersonIcon, Event as EventIcon, Logout as LogoutIcon, People, Settings, AccountBox, Home } from '@mui/icons-material';
@@ -9,7 +10,6 @@ const User = () => {
   const router = useRouter();
   const { data: session } = useSession();
 
-  
   const sidebarItems = [
     { text: 'Profile', icon: <PersonIcon />, route: '/profile' },
     { text: 'Dashboard', icon: <DashboardIcon />, route: '/dashboard' },
@@ -18,18 +18,17 @@ const User = () => {
     { text: 'Settings', icon: <Settings />, route: '/settings' }
   ];
 
-  const navigateTo = (route) => {
+  const navigateTo = (route: string) => {
     router.push(route);
   };
 
   const handleLogout = async () => {
-    await signOut(); 
-    router.push('/'); 
+    await signOut();
+    router.push('/');
   };
 
   return (
     <Box sx={{ display: 'flex' }}>
-    
       <Drawer
         sx={{
           width: 240,
@@ -58,12 +57,11 @@ const User = () => {
           </List>
         </Box>
         <Divider />
-        <Button sx={{marginRight:'0%',}} startIcon={<Home />} color='inherit' variant='h3' onClick={()=>router.push('/')}>
+        <Button sx={{ marginRight: '0%' }} startIcon={<Home />} color='inherit' variant='contained' onClick={() => router.push('/')}>
           Home
-          </Button>
-        <Box sx={{ p: 10 ,marginRight:'0%',}}>
-       
-          <Button sx={{marginRight:'0%',}} startIcon={<LogoutIcon />} color='secondary' variant='outlined' onClick={handleLogout}>
+        </Button>
+        <Box sx={{ p: 10, marginRight: '0%' }}>
+          <Button sx={{ marginRight: '0%' }} startIcon={<LogoutIcon />} color='secondary' variant='outlined' onClick={handleLogout}>
             Logout
           </Button>
         </Box>

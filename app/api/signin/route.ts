@@ -1,7 +1,8 @@
 
 import { NextResponse } from 'next/server';
 import bcrypt from 'bcryptjs';
-import clientPromise from '@/app/lib/mongodb'; 
+import clientPromise from '@/app/lib/mongodb1';  
+//import clientPromise from '@/app/lib/mongodb'; 
 
 export async function POST(req: Request) {
     const { email, password } = await req.json();

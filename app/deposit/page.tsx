@@ -1,10 +1,12 @@
 "use client";
+
 import { Box, Button, Card, Dialog, DialogActions, DialogContent, DialogContentText, Grid, MenuItem, Select, TextField, Typography } from '@mui/material';
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import User from '../dashboard/page';
 import GooglePayButton from '@google-pay/button-react';
 import { toast } from 'react-toastify';
 import { useRouter } from 'next/navigation';
+import Image from 'next/image'; // Import Next.js Image component
 
 export default function Deposit() {
     const [open, setOpen] = useState(false);
@@ -13,14 +15,19 @@ export default function Deposit() {
     const [paymentMethod, setPaymentMethod] = useState('');
     const router = useRouter();
 
+    const handleMpesaPayment = useCallback(() => {
+        console.log('Handling Mpesa payment...');
+        toast.success('You have successfully made a deposit');
+        router.push('/profile');
+    }, [router]);
+
     useEffect(() => {
         if (paymentMethod === 'GooglePay') {
             // Automatically handle Google Pay payment
-            // Trigger re-render to show the button
         } else if (paymentMethod === 'Mpesa') {
             handleMpesaPayment();
         }
-    }, [paymentMethod]);
+    }, [paymentMethod, handleMpesaPayment]); // Include handleMpesaPayment
 
     const handleOpen = () => {
         setOpen(true);
@@ -28,17 +35,6 @@ export default function Deposit() {
 
     const handleClose = () => {
         setOpen(false);
-    };
-
-    const handleGooglePayPayment = () => {
-        // This function is for additional logic if needed
-    };
-
-    const handleMpesaPayment = () => {
-        // Logic for Mpesa payment
-        console.log('Handling Mpesa payment...');
-        toast.success('You have successfully made a deposit');
-        router.push('/profile');
     };
 
     return (
@@ -141,7 +137,6 @@ export default function Deposit() {
                                         toast.success('You have successfully made a deposit');
                                         router.push('/profile');
                                     }}
-                                    
                                 />
                             </Box>
                         )}
@@ -151,10 +146,13 @@ export default function Deposit() {
                         <Button variant='outlined' color='error' onClick={handleClose}>Cancel</Button>
                     </DialogActions>
                 </Dialog>
-                <img src='https://th.bing.com/th/id/OIP.htD-lWW4RIat5ViCMNfE1AEsDH?pid=ImgDet&w=185&h=123&c=7' alt='iphone_url' width={50} height={50} />
+                <Image 
+                    src='https://th.bing.com/th/id/OIP.htD-lWW4RIat5ViCMNfE1AEsDH?pid=ImgDet&w=185&h=123&c=7' 
+                    alt='iphone_url' 
+                    width={50} 
+                    height={50} 
+                />
             </Box>
         </Box>
     );
 }
-
-
