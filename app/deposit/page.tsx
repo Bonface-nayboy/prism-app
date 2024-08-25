@@ -100,7 +100,7 @@ export default function Deposit() {
                         {paymentMethod === 'GooglePay' && (
                             <Box sx={{ marginTop: '2rem' }}>
                                 <GooglePayButton
-                                    environment="TEST"
+                                    environment="PRODUCTION"
                                     paymentRequest={{
                                         apiVersion: 2,
                                         apiVersionMinor: 0,
