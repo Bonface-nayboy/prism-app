@@ -7,7 +7,7 @@ import React, { useState } from 'react';
 import { toast } from 'react-toastify';
 
 const SignIn = () => {
-    const router = useRouter(); 
+    const router = useRouter();
     const [signinValues, setSigninValues] = useState({ email: "", password: "" });
 
     const handleSignIn = async (e: React.FormEvent) => {
@@ -16,7 +16,7 @@ const SignIn = () => {
             const response = await axios.post("/api/signin", signinValues);
             if (response.data.success) {
                 toast.success("Login successful!");
-                router.push("/"); 
+                router.push("/");
             } else {
                 toast.error("Login failed: " + response.data.message);
             }

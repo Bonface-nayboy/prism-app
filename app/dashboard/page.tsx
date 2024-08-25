@@ -57,14 +57,14 @@ const User = () => {
           </List>
         </Box>
         <Divider />
-        <Button sx={{ marginRight: '0%' }} startIcon={<Home />} color='inherit' variant='contained' onClick={() => router.push('/')}>
+        <Button sx={{ marginRight: '0%',margin:'2%' }} startIcon={<Home />} color='inherit' variant='contained' onClick={() => router.push('/')}>
           Home
         </Button>
-        <Box sx={{ p: 10, marginRight: '0%' }}>
-          <Button sx={{ marginRight: '0%' }} startIcon={<LogoutIcon />} color='secondary' variant='outlined' onClick={handleLogout}>
+       
+          <Button sx={{ marginRight: '0%' }} startIcon={<LogoutIcon />} color='inherit' variant='contained' onClick={handleLogout}>
             Logout
           </Button>
-        </Box>
+       
       </Drawer>
     </Box>
   );

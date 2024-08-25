@@ -1,5 +1,5 @@
 import { NextResponse } from "next/server";
-import { connectMongoDb } from "../../lib/mongodb"; 
+import { connectMongoDb } from '@/app/lib/mongodb';
 import User from '../../../src/models/userModel';
 
 // Explicitly define the type of the request parameter

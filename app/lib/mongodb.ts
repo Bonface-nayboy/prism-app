@@ -1,71 +1,54 @@
-{/*
-     
- import { MongoClient } from 'mongodb';
+// import { MongoClient } from 'mongodb';
 
-//const uri = 'mongodb://localhost:27017/register'; 
-//const uri ='mongodb+srv://bonfacewaithaka615:RtcAlmJDi302SO64@whinchester.893ep1m.mongodb.net/?retryWrites=true&w=majority&appName=Whinchester';
-//const uri ='mongodb+srv://bonfacewaithaka615:RtcAlmJDi302SO64@whinchester.893ep1m.mongodb.net/register?retryWrites=true&w=majority&appName=Whinchester';
-//const uri='mongodb+srv://bonfacewaithaka615:RtcAlmJDi302SO64@whinchester.893ep1m.mongodb.net/?retryWrites=true&w=majority&appName=Whinchester';
-const uri = 'mongodb+srv://bonfacewaithaka615:RtcAlmJDi302SO64@whinchester.893ep1m.mongodb.net/register?retryWrites=true&w=majority&appName=Whinchester';
+// // Fetch the MongoDB URI from environment variables
+// const uri = process.env.MONGODB_URI;
 
-let client: MongoClient;
+// if (!uri) {
+//     console.error('MONGODB_URI is not defined in environment variables');
+//     process.exit(1); // Exit the process if the environment variable is missing
+// }
 
-async function connectMongoDb() {
-    if (!client) {
-        client = new MongoClient(uri, {
-            useNewUrlParser: true,  // Remove for newer MongoDB Node.js driver versions
-            useUnifiedTopology: true // Remove for newer MongoDB Node.js driver versions
-        });
-        await client.connect();
-        console.log('Connected to MongoDB');
-    }
-    return client;
-}
+// // Initialize MongoClient
+// const client = new MongoClient(uri);
 
-export { connectMongoDb };
+// let clientPromise: Promise<MongoClient>;
 
- 
-    */}
+// if (process.env.NODE_ENV === 'development') {
+//     // In development mode, use a global variable to prevent multiple connections
+//     if (!(global as any)._mongoClientPromise) {
+//         (global as any)._mongoClientPromise = client.connect();
+//     }
+//     clientPromise = (global as any)._mongoClientPromise;
+// } else {
+//     clientPromise = client.connect();
+// }
 
-// app/lib/mongodb.ts
+// export default clientPromise;
+
+
+
 import { MongoClient } from 'mongodb';
 
-const uri = process.env.MONGODB_URI || 'mongodb://localhost:27017/register'; 
+const uri = process.env.MONGODB_URI || 'mongodb://localhost:27017/register';
 let cachedClient: MongoClient | null = null;
 
 async function connectMongoDb() {
     if (!cachedClient) {
-        cachedClient = new MongoClient(uri);
+        cachedClient = new MongoClient(uri); // Removed deprecated options
         try {
             await cachedClient.connect();
             console.log('Connected to MongoDB');
         } catch (error) {
-            console.error('Failed to connect to MongoDB:', error);
+            // Type assertion or narrowing
+            if (error instanceof Error) {
+                console.error('Failed to connect to MongoDB:', error.message); // Log error message
+            } else {
+                console.error('Failed to connect to MongoDB:', error); // Fallback for non-standard errors
+            }
         }
     }
     return cachedClient;
 }
 
-export { connectMongoDb }; // This should be correct for a named export
-
-    
-
-
-    
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+// Use default export
+export default connectMongoDb;

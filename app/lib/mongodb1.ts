@@ -1,27 +1,26 @@
 import { MongoClient } from 'mongodb';
 
-const uri = process.env.MONGODB_URI || 'mongodb://localhost:27017/register';
+// Fetch the MongoDB URI from environment variables
+const uri = process.env.MONGODB_URI;
 
-let cachedClient: MongoClient | null = null; // Initialize with null
-let clientPromise: Promise<MongoClient>; // Declare clientPromise
-
-// Check if we are in the development environment
-if (!process.env.NODE_ENV || process.env.NODE_ENV === 'development') {
-  // Only create the cached client if it doesn't exist
-  if (!cachedClient) {
-    cachedClient = new MongoClient(uri); // Initialize client
-    clientPromise = cachedClient.connect().then(() => {
-      // After connecting, ensure cachedClient is not null
-      return cachedClient as MongoClient; // Assert type to MongoClient
-    });
-  } else {
-    clientPromise = Promise.resolve(cachedClient); // Use cached client if it exists
-  }
-} else {
-  // In production, create a new client and connect to the database
-  const client = new MongoClient(uri);
-  clientPromise = client.connect(); // Set promise for production
+if (!uri) {
+    console.error('MONGODB_URI is not defined in environment variables');
+    process.exit(1); // Exit the process if the environment variable is missing
 }
 
-// Export clientPromise to be used in your application
+// Initialize MongoClient
+const client = new MongoClient(uri);
+
+let clientPromise: Promise<MongoClient>;
+
+if (process.env.NODE_ENV === 'development') {
+    // In development mode, use a global variable to prevent multiple connections
+    if (!(global as any)._mongoClientPromise) {
+        (global as any)._mongoClientPromise = client.connect();
+    }
+    clientPromise = (global as any)._mongoClientPromise;
+} else {
+    clientPromise = client.connect();
+}
+
 export default clientPromise;

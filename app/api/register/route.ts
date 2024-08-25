@@ -12,8 +12,8 @@ export async function POST(req: Request) {
 
     try {
         const client = await clientPromise;
-        const db = client.db();
-        //const db = client.db('register');
+        //const db = client.db();
+        const db = client.db('register');
 
         const existingUser = await db.collection('users').findOne({ email });
         console.log('existingUser', existingUser)
