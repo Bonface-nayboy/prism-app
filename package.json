@@ -14,7 +14,7 @@
     "@google-pay/button-react": "^3.1.0",
     "@mui/icons-material": "^5.16.4",
     "@mui/material": "^5.16.4",
-    "axios": "^1.7.2",
+    "axios": "^1.7.5",
     "bcrypt": "^5.1.1",
     "bcryptjs": "^2.4.3",
     "crypto": "^1.0.1",
