@@ -41,7 +41,7 @@ export default function Deposit() {
         <Box sx={{ minHeight: '100vh', backgroundColor: '#f5f5f5', padding: '2rem' }}>
             <User />
 
-            <Box sx={{ maxWidth: '800px', margin: 'auto', backgroundColor: '#ffffff', borderRadius: '8px', boxShadow: 3, padding: '2rem' }}>
+            <Box sx={{ maxWidth: '801px', margin: 'auto', backgroundColor: '#ffffff', borderRadius: '8px', boxShadow: 3, padding: '2rem' }}>
                 <Typography variant='h4' sx={{ textAlign: 'center', marginBottom: '2rem' }}>Deposit</Typography>
                 <Card sx={{ padding: '2rem', marginBottom: '2rem', boxShadow: 1 }}>
                     <Button
