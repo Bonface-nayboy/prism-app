@@ -576,6 +576,7 @@
 //     );
 // }
 
+
 "use client";
 
 import {
@@ -602,21 +603,15 @@ import { PayPalButtons, PayPalScriptProvider } from "@paypal/react-paypal-js";
 
 // PayPal client ID from environment variable
 const PAYPAL_CLIENT_ID = process.env.NEXT_PUBLIC_PAYPAL_CLIENT_ID;
-// Google Pay Gateway Merchant ID from environment variable
+// const GOOGLE_PAY_GATEWAY_MERCHANT_ID =process.env.NEXT_PUBLIC_GOOGLE_PAY_GATEWAY_MERCHANT_ID;
 const GOOGLE_PAY_GATEWAY_MERCHANT_ID = process.env.NEXT_PUBLIC_GOOGLE_PAY_GATEWAY_MERCHANT_ID || "";
-
-// Fixed conversion rate from KES to USD (for example purposes)
-const KES_TO_USD_CONVERSION_RATE = 0.007; // This should be fetched dynamically
 
 export default function Deposit() {
   const [open, setOpen] = useState(false);
   const [depositType, setDepositType] = useState("Silver");
-  const [amount] = useState(30); // Fixed amount of 30 KES
+  const [amount] = useState(30); // Fixed amount of 300
   const [paymentMethod, setPaymentMethod] = useState("");
   const router = useRouter();
-
-  // Convert KES amount to USD
-  const amountInUSD = (amount * KES_TO_USD_CONVERSION_RATE).toFixed(2);
 
   const handleMpesaPayment = useCallback(() => {
     console.log("Handling Mpesa payment...");
@@ -680,7 +675,7 @@ export default function Deposit() {
                 <Grid item xs={12} md={6}>
                   <TextField
                     variant="outlined"
-                    label="Amount (KES)"
+                    label="Amount"
                     fullWidth
                     type="number"
                     value={amount}
@@ -718,7 +713,9 @@ export default function Deposit() {
             {paymentMethod === "GooglePay" && (
               <Box sx={{ marginTop: "2rem" }}>
                 <GooglePayButton
-                  environment="PRODUCTION" // Use production environment
+                  environment={
+                    process.env.NODE_ENV === "production" ? "PRODUCTION" : "TEST"
+                  }
                   paymentRequest={{
                     apiVersion: 2,
                     apiVersionMinor: 0,
@@ -777,7 +774,7 @@ export default function Deposit() {
                           {
                             amount: {
                               currency_code: "USD",
-                              value: amountInUSD
+                              value: amount.toFixed(2)
                             }
                           }
                         ],
