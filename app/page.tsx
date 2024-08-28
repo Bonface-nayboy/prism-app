@@ -19,7 +19,7 @@ const Home = () => {
         </Grid>
         <Grid item xs={6}>
           <Typography variant="body1">
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla convallis libero et magna ultrices, sit amet cursus ligula aliquet.
+            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla convallis libero et magna ultrices, sit amet cursus ligula aliquet. Hey
           </Typography>
         </Grid>
         <Grid item xs={6}>
